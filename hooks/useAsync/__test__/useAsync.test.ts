@@ -1,16 +1,32 @@
 import {
   renderHook,
   act,
-  RenderHookResult
+  RenderHookResult,
 } from "@testing-library/react-hooks";
 import { DependencyList } from "react";
 import useAsync, { ReturnValue, Options } from "../index";
 
 describe("useAsync", () => {
+  const originalError = console.error;
   beforeAll(() => {
     jest.useFakeTimers();
+    console.error = (...args: any) => {
+      if (/Warning.*not wrapped in act/.test(args[0])) {
+        return;
+      }
+      if (
+        /Warning: Can't perform a React state update on an unmounted component/.test(
+          args[0],
+        )
+      ) {
+        return;
+      }
+      originalError.call(console, ...args);
+    };
   });
-  afterAll(() => {});
+  afterAll(() => {
+    console.error = originalError;
+  });
 
   const request = (req?: number) =>
     new Promise((resolve, reject) => {
@@ -46,13 +62,13 @@ describe("useAsync", () => {
         ({ func }) =>
           useAsync(func, [], {
             onSuccess: successCallback,
-            onError: errorCallback
+            onError: errorCallback,
           }),
         {
           initialProps: {
-            func: (req: number) => request(req)
-          }
-        }
+            func: (req: number) => request(req),
+          },
+        },
       );
     });
 
@@ -98,9 +114,9 @@ describe("useAsync", () => {
         opt: {
           manual: true,
           onSuccess: successCallback,
-          onError: errorCallback
-        } as Options<{}>
-      }
+          onError: errorCallback,
+        } as Options<{}>,
+      },
     });
 
     const { run, loading } = hook.result.current;
@@ -142,9 +158,9 @@ describe("useAsync", () => {
           deps: [] as ReadonlyArray<{}>,
           opt: {
             manual: true,
-            pollingInterval: 3000
-          } as Options<{}>
-        }
+            pollingInterval: 3000,
+          } as Options<{}>,
+        },
       });
     });
 
@@ -192,9 +208,9 @@ describe("useAsync", () => {
         },
         deps: [] as ReadonlyArray<{}>,
         opt: {
-          pollingInterval: 3000
-        } as Options<{}>
-      }
+          pollingInterval: 3000,
+        } as Options<{}>,
+      },
     });
 
     expect(hook.result.current.loading).toEqual(true);
@@ -241,9 +257,9 @@ describe("useAsync", () => {
               hook.unmount();
             }
           },
-          manual: true
-        } as Options<{}>
-      }
+          manual: true,
+        } as Options<{}>,
+      },
     });
     expect(hook.result.current.loading).toEqual(false);
 
