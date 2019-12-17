@@ -1,7 +1,7 @@
 import {
   act,
   renderHook,
-  RenderHookResult,
+  RenderHookResult
 } from "@testing-library/react-hooks";
 import { DependencyList } from "react";
 import useAntdTable, { Options, ReturnValue } from "../index";
@@ -33,16 +33,16 @@ describe("useAntdTable", () => {
       current: query.current,
       total: 20,
       pageSize: query.pageSize,
-      data: [],
+      data: []
     });
   };
 
   const form: any = {
     initialValue: {
-      name: "default name",
+      name: "default name"
     },
     fieldsValue: {
-      name: "default name",
+      name: "default name"
     },
     getFieldsValue() {
       return this.fieldsValue;
@@ -55,19 +55,19 @@ describe("useAntdTable", () => {
     },
     resetFields() {
       this.fieldsValue = { ...this.initialValue };
-    },
+    }
   };
 
   const changeSearchType = (type: any) => {
     if (type === "simple") {
       form.setFieldsValue({
-        name: form.fieldsValue.name,
+        name: form.fieldsValue.name
       });
     } else {
       form.setFieldsValue({
         name: form.fieldsValue.name,
         email: form.fieldsValue.email,
-        phone: form.fieldsValue.phone,
+        phone: form.fieldsValue.phone
       });
     }
   };
@@ -92,7 +92,7 @@ describe("useAntdTable", () => {
     queryArgs = undefined;
     act(() => {
       hook = setUp({
-        asyncFn,
+        asyncFn
       });
     });
 
@@ -109,14 +109,14 @@ describe("useAntdTable", () => {
     queryArgs = undefined;
     act(() => {
       hook = setUp({
-        asyncFn,
+        asyncFn
       });
     });
     await hook.waitForNextUpdate();
     act(() => {
       hook.result.current.tableProps.onChange({
         current: 2,
-        pageSize: 5,
+        pageSize: 5
       });
     });
     await hook.waitForNextUpdate();
@@ -126,10 +126,10 @@ describe("useAntdTable", () => {
       hook.result.current.tableProps.onChange(
         {
           current: 2,
-          pageSize: 5,
+          pageSize: 5
         },
         { gender: ["male"] },
-        { field: "email", order: "ascend" } as any,
+        { field: "email", order: "ascend" } as any
       );
     });
     await hook.waitForNextUpdate();
@@ -145,7 +145,7 @@ describe("useAntdTable", () => {
       hook = setUp({
         asyncFn,
         deps: [],
-        options: { form, defaultPageSize: 5, id: "tableId" },
+        options: { form, defaultPageSize: 5, id: "tableId" }
       });
     });
     await hook.waitForNextUpdate();
@@ -163,7 +163,7 @@ describe("useAntdTable", () => {
     act(() => {
       hook.result.current.tableProps.onChange({
         current: 2,
-        pageSize: 5,
+        pageSize: 5
       });
     });
     await hook.waitForNextUpdate();
@@ -262,7 +262,7 @@ describe("useAntdTable", () => {
     act(() => {
       hook.result.current.tableProps.onChange({
         current: 3,
-        pageSize: 5,
+        pageSize: 5
       });
     });
     await hook.waitForNextUpdate();
@@ -270,7 +270,7 @@ describe("useAntdTable", () => {
     form.fieldsValue = {
       name: "",
       phone: "",
-      email: "",
+      email: ""
     };
     act(() => {
       hook.unmount();
@@ -279,7 +279,7 @@ describe("useAntdTable", () => {
       hook = setUp({
         asyncFn,
         deps: [],
-        options: { form, defaultPageSize: 5, id: "tableId" },
+        options: { form, defaultPageSize: 5, id: "tableId" }
       });
     });
 
