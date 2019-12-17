@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Button } from 'antd';
-import useThrottleFn from '..';
+import React, { useState } from "react";
+import { Button } from "antd";
+import useThrottleFn from "..";
 
 export default () => {
   const [value, setValue] = useState(0);

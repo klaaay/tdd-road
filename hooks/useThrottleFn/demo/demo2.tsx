@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Button, Input } from 'antd';
-import useThrottleFn from '..';
+import React, { useState } from "react";
+import { Button, Input } from "antd";
+import useThrottleFn from "..";
 
 export default () => {
   const [value, setValue] = useState();
@@ -11,7 +11,7 @@ export default () => {
       setThrottleValue(value);
     },
     [value],
-    1000,
+    1000
   );
 
   return (
@@ -22,7 +22,7 @@ export default () => {
         placeholder="Typed value"
         style={{ width: 280 }}
       />
-      <p style={{ margin: '16px 0' }}>
+      <p style={{ margin: "16px 0" }}>
         <Button onClick={cancel}>Cancel Throttle</Button>
       </p>
       <p>throttleValue: {throttleValue}</p>
